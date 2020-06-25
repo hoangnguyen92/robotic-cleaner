@@ -6,6 +6,8 @@ import com.marshmallow.roboticcleaner.services.RobotCleanerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/robot")
@@ -15,7 +17,7 @@ public class RobotCleanerController {
     private final RobotCleanerService robotCleanerService;
 
     @RequestMapping(value = "/clean", method = RequestMethod.POST)
-    public RobotCleanResult clean(@RequestBody RobotCleanInput robotCleanInput){
+    public RobotCleanResult clean(@Valid @RequestBody RobotCleanInput robotCleanInput){
         return robotCleanerService.clean(robotCleanInput);
     }
 }

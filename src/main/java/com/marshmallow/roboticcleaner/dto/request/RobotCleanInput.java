@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
@@ -15,13 +16,16 @@ import java.util.List;
 @AllArgsConstructor
 public class RobotCleanInput implements Serializable {
 
-    @Size(max = 2, min = 2)
+    @Size(max = 2, min = 2, message = "must be exact 2")
+    @NotEmpty
     private List<Integer> areaSize;
 
-    @Size(max = 2, min = 2)
+    @Size(max = 2, min = 2, message = "must be exact 2")
+    @NotEmpty
     private List<Integer> startingPosition;
 
-    private List< @Size(max = 2, min = 2) List<Integer>> oilPatches;
+    private List<@Size(max = 2, min = 2, message = "must be exact 2") List<Integer>> oilPatches;
 
+    @NotEmpty
     private String navigationInstructions;
 }

@@ -36,14 +36,17 @@ public class RobotCleanerService {
         int numOilPatchCleaned = 0;
         List<Integer> finalPosition = startingPosition;
 
+        if(cleanOilPatch(seaArea, startingPosition)){
+            numOilPatchCleaned++;
+        }
+
         for (int i = 0; i < navigationInstructions.length(); i++) {
             char direction = navigationInstructions.charAt(i);
             List<Integer> nextPosition = getNextPosition(finalPosition, direction);
             validatePosition(row, col, nextPosition);
 
-            if(seaArea[nextPosition.get(1)][nextPosition.get(0)] == 1){
+            if(cleanOilPatch(seaArea, nextPosition)){
                 numOilPatchCleaned++;
-                seaArea[nextPosition.get(1)][nextPosition.get(0)] = 0;
             }
             finalPosition = nextPosition;
         }
@@ -52,6 +55,15 @@ public class RobotCleanerService {
                 .finalPosition(finalPosition)
                 .oilPatchesCleaned(numOilPatchCleaned)
                 .build();
+    }
+
+    private boolean cleanOilPatch(int[][] seaArea, List<Integer> nextPosition) {
+        if(seaArea[nextPosition.get(1)][nextPosition.get(0)] == 1){
+            seaArea[nextPosition.get(1)][nextPosition.get(0)] = 0;
+
+            return true;
+        }
+        return false;
     }
 
     private List<Integer> getNextPosition(List<Integer> currentPosition, char direction) {
@@ -68,7 +80,7 @@ public class RobotCleanerService {
             nextX++;
         }else{
             //throw InvalidDirectionException
-            throw new InvalidDirectionException();
+            throw new InvalidDirectionException("Invalid Direction " + direction);
         }
 
         return List.of(nextX, nextY);
@@ -81,7 +93,7 @@ public class RobotCleanerService {
 
         if(x < 0 || x >= col || y < 0 || y >= row){
             //throw InvalidPositionException
-            throw new InvalidPositionException();
+            throw new InvalidPositionException("Invalid Position " + List.of(x,y));
         }
     }
 }

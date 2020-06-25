@@ -1,8 +1,13 @@
 package com.marshmallow.roboticcleaner.exceptions;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Invalid Direction!")
+@Data
 public class InvalidDirectionException extends RuntimeException{
+    private HttpStatus status = HttpStatus.BAD_REQUEST;
+
+    public InvalidDirectionException(String message) {
+        super(message);
+    }
 }
